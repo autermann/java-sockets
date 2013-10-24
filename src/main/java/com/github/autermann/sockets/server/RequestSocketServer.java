@@ -30,7 +30,7 @@ import com.github.autermann.sockets.ServerSocketFactory;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public class RequestSocketServer<I, O> extends StreamingSocketServer {
 

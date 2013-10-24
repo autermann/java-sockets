@@ -27,7 +27,7 @@ import java.security.KeyStore;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public abstract class SSLConfiguration {
     private KeyStore keyStore;

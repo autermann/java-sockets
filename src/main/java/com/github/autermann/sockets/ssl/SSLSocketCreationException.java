@@ -22,7 +22,7 @@ import java.security.GeneralSecurityException;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public class SSLSocketCreationException extends SocketException {
     public SSLSocketCreationException(String message) {
