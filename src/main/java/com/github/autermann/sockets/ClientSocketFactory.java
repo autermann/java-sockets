@@ -28,7 +28,7 @@ import java.net.SocketException;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public abstract class ClientSocketFactory {
     public abstract Socket createSocket(InetSocketAddress address, int timeout)

@@ -36,7 +36,7 @@ import com.google.common.io.OutputSupplier;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public class StreamingSocketClient {
 
@@ -89,7 +89,9 @@ public class StreamingSocketClient {
                 thrown = e;
             }
         }
-        throw thrown;
+        if (thrown != null) {
+            throw thrown;
+        }
     }
 
     protected class SocketConnection implements InputSupplier<InputStream>,

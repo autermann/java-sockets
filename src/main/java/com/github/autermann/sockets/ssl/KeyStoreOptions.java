@@ -31,7 +31,7 @@ import com.google.common.io.Closeables;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public class KeyStoreOptions {
     private final String pass;

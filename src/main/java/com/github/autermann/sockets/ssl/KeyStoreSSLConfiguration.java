@@ -33,7 +33,7 @@ import com.google.common.io.Closeables;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public class KeyStoreSSLConfiguration extends SSLConfiguration {
     public static final String KEY_STORE_PATH = "keyStore.path";

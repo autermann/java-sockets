@@ -28,7 +28,7 @@ import java.io.OutputStream;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public interface StreamingSocketServerHandler {
     void handle(InputStream in, OutputStream out) throws IOException;

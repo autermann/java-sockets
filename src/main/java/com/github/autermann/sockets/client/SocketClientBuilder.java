@@ -29,7 +29,7 @@ import com.github.autermann.sockets.ssl.SSLConfiguration;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann <autermann@uni-muenster.de>
  */
 public class SocketClientBuilder {
     private static final int DEFAULT_TIMEOUT = 10 * 1000;
