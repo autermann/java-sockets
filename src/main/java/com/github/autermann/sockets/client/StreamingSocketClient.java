@@ -89,7 +89,9 @@ public class StreamingSocketClient {
                 thrown = e;
             }
         }
-        throw thrown;
+        if (thrown != null) {
+            throw thrown;
+        }
     }
 
     protected class SocketConnection implements InputSupplier<InputStream>,
