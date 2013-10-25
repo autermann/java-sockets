@@ -20,18 +20,18 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/autermann/sockets.git</connection>
-        <developerConnection>scm:git:https://github.com/autermann/sockets.git</developerConnection>
-        <url>https://github.com/autermann/sockets</url>
+        <connection>scm:git:https://github.com/autermann/java-sockets.git</connection>
+        <developerConnection>scm:git:https://github.com/autermann/java-sockets.git</developerConnection>
+        <url>https://github.com/autermann/java-sockets</url>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
         <system>GitHub Issue Management</system>
-        <url>https://github.com/autermann/sockets/issues</url>
+        <url>https://github.com/autermann/java-sockets/issues</url>
     </issueManagement>
     <ciManagement>
         <system>Travis CI</system>
-        <url>https://travis-ci.org/autermann/sockets</url>
+        <url>https://travis-ci.org/autermann/java-sockets</url>
     </ciManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,14 +73,26 @@
             <version>1.49</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.kohsuke</groupId>
+            <artifactId>akuma</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.autermann</groupId>
+            <artifactId>utils</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
             </plugin>
              <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
@@ -103,7 +115,7 @@
                     </includes>
                     <strictCheck>true</strictCheck>
                     <properties>
-                        <year>${project.inceptionYear}-2013</year>
+                        <year>2013</year>
                     </properties>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>

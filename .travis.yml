@@ -5,3 +5,6 @@ jdk:
     - openjdk7
     - oraclejdk7
     - openjdk6
+install:
+    - chmod +x deps.sh
+    - ./deps.sh

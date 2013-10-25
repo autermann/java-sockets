@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2013 by it's authors.
+ * Copyright (C) 2013 by it's authors.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.github.autermann.sockets.ssl.SSLConfiguration;
 import com.github.autermann.sockets.ssl.SSLServerSocketFactory;
-import com.github.autermann.sockets.util.Factory;
-import com.github.autermann.sockets.util.NamedAndGroupedThreadFactory;
+import com.github.autermann.utils.Factory;
+import com.github.autermann.utils.NamedAndGroupedThreadFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 

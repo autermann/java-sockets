@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2013 by it's authors.
+ * Copyright (C) 2013 by it's authors.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.autermann.sockets.util.Factory;
+import com.github.autermann.utils.Factory;
 import com.google.common.io.Closer;
 
 /**
