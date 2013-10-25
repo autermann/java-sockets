@@ -22,7 +22,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import java.net.InetSocketAddress;
 
-import com.github.autermann.sockets.ClientSocketFactory;
 import com.github.autermann.sockets.ssl.SSLClientSocketFactory;
 import com.github.autermann.sockets.ssl.SSLConfiguration;
 
@@ -57,8 +56,12 @@ public class SocketClientBuilder {
     }
 
     public SocketClientBuilder withSSL(SSLConfiguration config) {
-        checkNotNull(config);
-        return withSocketFactory(new SSLClientSocketFactory(config));
+        if (config == null) {
+            this.socketFactory = null;
+            return this;
+        } else {
+            return withSocketFactory(new SSLClientSocketFactory(config));
+        }
     }
 
     public SocketClientBuilder withTimeout(int timeout) {

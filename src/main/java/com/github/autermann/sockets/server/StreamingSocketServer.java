@@ -29,7 +29,6 @@ import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.autermann.sockets.ServerSocketFactory;
 import com.github.autermann.sockets.util.Factory;
 import com.google.common.io.Closer;
 

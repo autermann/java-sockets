@@ -14,10 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.autermann.sockets;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.github.autermann.sockets.client;
 
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.SocketException;
 
 /**
@@ -25,16 +30,28 @@ import java.net.SocketException;
  *
  * @author Christian Autermann <autermann@uni-muenster.de>
  */
-public abstract class ServerSocketFactory {
-    public abstract ServerSocket createSocket(int port)
+public abstract class ClientSocketFactory {
+    public abstract Socket createSocket(InetSocketAddress address, int timeout)
             throws IOException, SocketException;
 
-    public static ServerSocketFactory getDefault() {
-        return new ServerSocketFactory() {
+    public abstract Socket createSocket(String host, int port, int timeout)
+            throws IOException, SocketException;
+
+    public static ClientSocketFactory getDefault() {
+        return new ClientSocketFactory() {
+
             @Override
-            public ServerSocket createSocket(int port)
+            public Socket createSocket(InetSocketAddress address, int timeout)
                     throws IOException, SocketException {
-                return new ServerSocket(port);
+                Socket socket = new Socket();
+                socket.connect(address, timeout);
+                return socket;
+            }
+
+            @Override
+            public Socket createSocket(String host, int port, int timeout)
+                    throws IOException, SocketException {
+                return createSocket(new InetSocketAddress(host, port), timeout);
             }
         };
     }

@@ -24,7 +24,7 @@ import java.security.GeneralSecurityException;
 
 import javax.net.ssl.SSLServerSocket;
 
-import com.github.autermann.sockets.ServerSocketFactory;
+import com.github.autermann.sockets.server.ServerSocketFactory;
 
 /**
  * TODO JavaDoc

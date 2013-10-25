@@ -23,7 +23,7 @@ import java.security.GeneralSecurityException;
 
 import javax.net.ssl.SSLSocket;
 
-import com.github.autermann.sockets.ClientSocketFactory;
+import com.github.autermann.sockets.client.ClientSocketFactory;
 import com.google.common.base.Preconditions;
 
 /**

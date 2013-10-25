@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 import com.github.autermann.sockets.client.RequestSocketClient;
 import com.github.autermann.sockets.client.RequestSocketClientHandler;
 import com.github.autermann.sockets.client.SocketClientBuilder;
-import com.github.autermann.sockets.server.RequestSockerServerHandler;
+import com.github.autermann.sockets.server.RequestSocketServerHandler;
 import com.github.autermann.sockets.server.RequestSocketServerCoder;
 import com.github.autermann.sockets.server.SocketServerBuilder;
 import com.github.autermann.sockets.server.StreamingSocketServer;
@@ -170,7 +170,7 @@ public class SSLSocketTest {
         }
     }
 
-    private class EchoResponseHandler implements RequestSockerServerHandler<List<String>, List<String>> {
+    private class EchoResponseHandler implements RequestSocketServerHandler<List<String>, List<String>> {
         @Override
         public List<String> handle(List<String> request) {
             return request;

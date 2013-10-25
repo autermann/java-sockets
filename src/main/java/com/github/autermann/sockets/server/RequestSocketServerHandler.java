@@ -21,6 +21,6 @@ package com.github.autermann.sockets.server;
  *
  * @author Christian Autermann <autermann@uni-muenster.de>
  */
-public interface RequestSockerServerHandler<I, O> {
+public interface RequestSocketServerHandler<I, O> {
     O handle(I request);
 }

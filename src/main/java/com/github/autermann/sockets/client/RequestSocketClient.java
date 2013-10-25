@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
-import com.github.autermann.sockets.ClientSocketFactory;
 import com.google.common.io.InputSupplier;
 import com.google.common.io.OutputSupplier;
 
