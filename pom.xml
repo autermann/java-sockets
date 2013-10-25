@@ -57,7 +57,7 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <artifactId>slf4j-simple</artifactId>
             <version>1.7.5</version>
             <scope>test</scope>
         </dependency>
@@ -73,11 +73,13 @@
             <version>1.49</version>
             <scope>compile</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>akuma</artifactId>
             <version>1.9</version>
         </dependency>
+    	-->
         <dependency>
             <groupId>com.github.autermann</groupId>
             <artifactId>utils</artifactId>
