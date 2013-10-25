@@ -25,7 +25,6 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-import com.github.autermann.sockets.ServerSocketFactory;
 
 /**
  * TODO JavaDoc

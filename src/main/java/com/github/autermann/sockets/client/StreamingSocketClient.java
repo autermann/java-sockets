@@ -29,7 +29,6 @@ import java.net.SocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.autermann.sockets.ClientSocketFactory;
 import com.google.common.io.InputSupplier;
 import com.google.common.io.OutputSupplier;
 

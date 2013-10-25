@@ -25,7 +25,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.github.autermann.sockets.ServerSocketFactory;
 import com.github.autermann.sockets.ssl.SSLConfiguration;
 import com.github.autermann.sockets.ssl.SSLServerSocketFactory;
 import com.github.autermann.sockets.util.Factory;
