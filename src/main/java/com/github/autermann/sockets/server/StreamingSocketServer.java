@@ -18,6 +18,7 @@ package com.github.autermann.sockets.server;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -48,10 +49,9 @@ public class StreamingSocketServer {
     private ServerSocket serverSocket;
 
     StreamingSocketServer(ServerSocketFactory serverSocketFactory,
-                         Factory<StreamingSocketServerHandler> handlerFactory,
-                         Executor executor,
-                         List<Runnable> shutdownHooks,
-                         int port) {
+                          Factory<StreamingSocketServerHandler> handlerFactory,
+                          Executor executor, List<Runnable> shutdownHooks,
+                          int port) {
         this.serverSocketFactory = serverSocketFactory;
         this.handlerFactory = handlerFactory;
         this.shutdownHooks = shutdownHooks;
@@ -148,7 +148,7 @@ public class StreamingSocketServer {
         public void run() {
             Closer c = Closer.create();
             try {
-                c.register(this.socket);
+                c.register(new ClosableSocket(socket));
                 InputStream in = c.register(socket.getInputStream());
                 OutputStream out = c.register(socket.getOutputStream());
                 handler.handle(in, out);
@@ -163,6 +163,20 @@ public class StreamingSocketServer {
                               e.getMessage(), e);
                 }
             }
+        }
+
+    }
+
+    private class ClosableSocket implements Closeable {
+        private final Socket socket;
+
+        ClosableSocket(Socket socket) {
+            this.socket = socket;
+        }
+
+        @Override
+        public void close() throws IOException {
+            this.socket.close();
         }
     }
 }
