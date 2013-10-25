@@ -57,8 +57,12 @@ public class SocketClientBuilder {
     }
 
     public SocketClientBuilder withSSL(SSLConfiguration config) {
-        checkNotNull(config);
-        return withSocketFactory(new SSLClientSocketFactory(config));
+        if (config == null) {
+            this.socketFactory = null;
+            return this;
+        } else {
+            return withSocketFactory(new SSLClientSocketFactory(config));
+        }
     }
 
     public SocketClientBuilder withTimeout(int timeout) {
