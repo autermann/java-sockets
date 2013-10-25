@@ -36,7 +36,7 @@ public class RequestSocketServer<I, O> extends StreamingSocketServer {
 
     RequestSocketServer(ServerSocketFactory serverSocketFactory,
                         Factory<RequestSocketServerCoder<I, O>> coderFactory,
-                        Factory<RequestSockerServerHandler<I, O>> handlerFactory,
+                        Factory<RequestSocketServerHandler<I, O>> handlerFactory,
                         Executor executor, List<Runnable> shutdownHooks,
                         int port) {
         super(serverSocketFactory, createStreamingHandlerFactory(coderFactory, handlerFactory),
@@ -45,7 +45,7 @@ public class RequestSocketServer<I, O> extends StreamingSocketServer {
 
     private static <I, O> Factory<StreamingSocketServerHandler> createStreamingHandlerFactory(
             Factory<RequestSocketServerCoder<I, O>> coderFactory,
-            Factory<RequestSockerServerHandler<I, O>> handlerFactory) {
+            Factory<RequestSocketServerHandler<I, O>> handlerFactory) {
         return Factory.<StreamingSocketServerHandler>fromInstance(
                 new HandlerImpl<I, O>(coderFactory, handlerFactory));
     }
@@ -53,10 +53,10 @@ public class RequestSocketServer<I, O> extends StreamingSocketServer {
     private static class HandlerImpl<I, O> implements
             StreamingSocketServerHandler {
         private final Factory<RequestSocketServerCoder<I, O>> coderFactory;
-        private final Factory<RequestSockerServerHandler<I, O>> handlerFactory;
+        private final Factory<RequestSocketServerHandler<I, O>> handlerFactory;
 
         HandlerImpl(Factory<RequestSocketServerCoder<I, O>> coderFactory,
-                    Factory<RequestSockerServerHandler<I, O>> handlerFactory) {
+                    Factory<RequestSocketServerHandler<I, O>> handlerFactory) {
             this.coderFactory = checkNotNull(coderFactory);
             this.handlerFactory = checkNotNull(handlerFactory);
         }
@@ -65,7 +65,7 @@ public class RequestSocketServer<I, O> extends StreamingSocketServer {
         public void handle(InputStream in, OutputStream out)
                 throws IOException {
             RequestSocketServerCoder<I, O> coder = coderFactory.create();
-            RequestSockerServerHandler<I, O> handler = handlerFactory.create();
+            RequestSocketServerHandler<I, O> handler = handlerFactory.create();
             I request = coder.decode(in);
             O response = handler.handle(request);
             coder.encode(response, out);

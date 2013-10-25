@@ -129,7 +129,7 @@ public class SocketServerBuilder {
 
     public <I, O> RequestSocketServer<I, O> build(
             Factory<RequestSocketServerCoder<I, O>> coderFactory,
-            Factory<RequestSockerServerHandler<I, O>> handlerFactory) {
+            Factory<RequestSocketServerHandler<I, O>> handlerFactory) {
         checkNotNull(coderFactory);
         checkNotNull(handlerFactory);
         validate();
@@ -143,19 +143,19 @@ public class SocketServerBuilder {
 
     public <I, O> RequestSocketServer<I, O> build(
             RequestSocketServerCoder<I, O> coder,
-            Factory<RequestSockerServerHandler<I, O>> handlerFactory) {
+            Factory<RequestSocketServerHandler<I, O>> handlerFactory) {
         return build(Factory.fromInstance(coder), handlerFactory);
     }
 
     public <I, O> RequestSocketServer<I, O> build(
             Factory<RequestSocketServerCoder<I, O>> coderFactory,
-            RequestSockerServerHandler<I, O> handler) {
+            RequestSocketServerHandler<I, O> handler) {
         return build(coderFactory, Factory.fromInstance(handler));
     }
 
     public <I, O> RequestSocketServer<I, O> build(
             RequestSocketServerCoder<I, O> coder,
-            RequestSockerServerHandler<I, O> handler) {
+            RequestSocketServerHandler<I, O> handler) {
         return build(Factory.fromInstance(coder),
                      Factory.fromInstance(handler));
     }
