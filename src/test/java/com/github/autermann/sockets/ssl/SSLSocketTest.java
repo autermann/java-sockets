@@ -16,9 +16,12 @@
  */
 package com.github.autermann.sockets.ssl;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -29,12 +32,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.net.SocketException;
 import java.net.URISyntaxException;
+import java.security.cert.CertificateParsingException;
 import java.util.Collections;
 import java.util.List;
 
 import javax.net.ssl.SSLException;
 
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -44,10 +50,11 @@ import org.slf4j.LoggerFactory;
 import com.github.autermann.sockets.client.RequestSocketClient;
 import com.github.autermann.sockets.client.RequestSocketClientHandler;
 import com.github.autermann.sockets.client.SocketClientBuilder;
-import com.github.autermann.sockets.server.RequestSocketServerHandler;
 import com.github.autermann.sockets.server.RequestSocketServerCoder;
+import com.github.autermann.sockets.server.RequestSocketServerHandler;
 import com.github.autermann.sockets.server.SocketServerBuilder;
 import com.github.autermann.sockets.server.StreamingSocketServer;
+import com.github.autermann.utils.Java;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.CharStreams;
@@ -105,6 +112,9 @@ public class SSLSocketTest {
     public void testClient1() throws IOException {
         SSLServerSocketFactory serverFactory = createServerFactory(SERVER);
         SSLClientSocketFactory clientFactory = createClientFactory(CLIENT1);
+        if (Java.v6) {
+            expectJava6ParsingException();
+        }
         communicate(serverFactory, clientFactory);
     }
 
@@ -112,15 +122,30 @@ public class SSLSocketTest {
     public void testClient2() throws IOException {
         SSLServerSocketFactory serverFactory = createServerFactory(SERVER);
         SSLClientSocketFactory clientFactory = createClientFactory(CLIENT2);
+        if (Java.v6) {
+            expectJava6ParsingException();
+        }
         communicate(serverFactory, clientFactory);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testClient3() throws IOException {
         SSLServerSocketFactory serverFactory = createServerFactory(SERVER);
         SSLClientSocketFactory clientFactory = createClientFactory(CLIENT3);
-        thrown.expect(SSLException.class);
+        if (Java.v6) {
+            expectJava6ParsingException();
+        } else {
+            thrown.expect(SSLException.class);
+        }
         communicate(serverFactory, clientFactory);
+    }
+
+    private void expectJava6ParsingException() {
+        thrown.expect(SocketException.class);
+        thrown.expectCause(Matchers.<Throwable>allOf(
+                instanceOf(CertificateParsingException.class),
+                hasMessage(containsString("invalid DER-encoded certificate data"))));
     }
 
     private void communicate(SSLServerSocketFactory serverFactory,

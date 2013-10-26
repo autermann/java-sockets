@@ -28,6 +28,7 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -45,6 +46,7 @@ import org.bouncycastle.util.io.pem.PemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.autermann.utils.Java;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
@@ -124,9 +126,7 @@ public class SSLUtils {
     }
 
     public static PrivateKey readKey(InputSupplier<? extends InputStream> in)
-            throws IOException,
-                   NoSuchAlgorithmException,
-                   InvalidKeySpecException {
+            throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         Closer closer = Closer.create();
         try {
             Reader reader = closer.register(CharStreams
@@ -140,22 +140,19 @@ public class SSLUtils {
     }
 
     public static List<X509Certificate> readCertificates(String filename)
-            throws CertificateException,
-                   IOException {
+            throws CertificateException, IOException {
         return readCertificates(new File(filename));
     }
 
     public static List<X509Certificate> readCertificates(File file)
-            throws CertificateException,
-                   IOException {
+            throws CertificateException, IOException {
         return readCertificates(Files.newInputStreamSupplier(file));
 
     }
 
     public static List<X509Certificate> readCertificates(
             InputSupplier<? extends InputStream> in)
-            throws CertificateException,
-                   IOException {
+            throws CertificateException, IOException {
         InputStream is = null;
         try {
             is = in.getInput();
@@ -169,6 +166,14 @@ public class SSLUtils {
                 log.info("Read {}", cert.getSubjectX500Principal().getName());
             }
             return certs;
+        } catch (CertificateParsingException ex) {
+            // FIXME check compatibility of X509CertificateFactory in Java 6/7
+            if (Java.v6 && ex.getMessage() != null &&
+                ex.getMessage().equals("invalid DER-encoded certificate data")) {
+                log.warn("X509CertificateFactory was not able to parse certificate. " +
+                         "Consider switching to Java 7 to overcome this issue.");
+            }
+            throw ex;
         } finally {
             Closeables.close(is, true);
         }
