@@ -16,7 +16,6 @@
  */
 package com.github.autermann.sockets.server;
 
-import com.github.autermann.utils.Factory;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
@@ -25,6 +24,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 
 /**
  * TODO JavaDoc
@@ -34,28 +35,28 @@ import java.util.concurrent.Executor;
 public class RequestSocketServer<I, O> extends StreamingSocketServer {
 
     RequestSocketServer(ServerSocketFactory serverSocketFactory,
-                        Factory<RequestSocketServerCoder<I, O>> coderFactory,
-                        Factory<RequestSocketServerHandler<I, O>> handlerFactory,
+                        Supplier<RequestSocketServerCoder<I, O>> coderFactory,
+                        Supplier<RequestSocketServerHandler<I, O>> handlerFactory,
                         Executor executor, List<Runnable> shutdownHooks,
                         int port) {
         super(serverSocketFactory, createStreamingHandlerFactory(coderFactory, handlerFactory),
               executor, shutdownHooks, port);
     }
 
-    private static <I, O> Factory<StreamingSocketServerHandler> createStreamingHandlerFactory(
-            Factory<RequestSocketServerCoder<I, O>> coderFactory,
-            Factory<RequestSocketServerHandler<I, O>> handlerFactory) {
-        return Factory.<StreamingSocketServerHandler>fromInstance(
+    private static <I, O> Supplier<StreamingSocketServerHandler> createStreamingHandlerFactory(
+            Supplier<RequestSocketServerCoder<I, O>> coderFactory,
+            Supplier<RequestSocketServerHandler<I, O>> handlerFactory) {
+        return Suppliers.<StreamingSocketServerHandler>ofInstance(
                 new HandlerImpl<I, O>(coderFactory, handlerFactory));
     }
 
     private static class HandlerImpl<I, O> implements
             StreamingSocketServerHandler {
-        private final Factory<RequestSocketServerCoder<I, O>> coderFactory;
-        private final Factory<RequestSocketServerHandler<I, O>> handlerFactory;
+        private final Supplier<RequestSocketServerCoder<I, O>> coderFactory;
+        private final Supplier<RequestSocketServerHandler<I, O>> handlerFactory;
 
-        HandlerImpl(Factory<RequestSocketServerCoder<I, O>> coderFactory,
-                    Factory<RequestSocketServerHandler<I, O>> handlerFactory) {
+        HandlerImpl(Supplier<RequestSocketServerCoder<I, O>> coderFactory,
+                    Supplier<RequestSocketServerHandler<I, O>> handlerFactory) {
             this.coderFactory = checkNotNull(coderFactory);
             this.handlerFactory = checkNotNull(handlerFactory);
         }
@@ -63,8 +64,8 @@ public class RequestSocketServer<I, O> extends StreamingSocketServer {
         @Override
         public void handle(InputStream in, OutputStream out)
                 throws IOException {
-            RequestSocketServerCoder<I, O> coder = coderFactory.create();
-            RequestSocketServerHandler<I, O> handler = handlerFactory.create();
+            RequestSocketServerCoder<I, O> coder = coderFactory.get();
+            RequestSocketServerHandler<I, O> handler = handlerFactory.get();
             I request = coder.decode(in);
             O response = handler.handle(request);
             coder.encode(response, out);

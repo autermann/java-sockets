@@ -27,9 +27,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.github.autermann.sockets.ssl.SSLConfiguration;
 import com.github.autermann.sockets.ssl.SSLServerSocketFactory;
-import com.github.autermann.utils.Factory;
 import com.github.autermann.utils.NamedAndGroupedThreadFactory;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
 
 /**
@@ -112,11 +113,11 @@ public class SocketServerBuilder {
     }
 
     public StreamingSocketServer build(StreamingSocketServerHandler h) {
-        return build(Factory.fromInstance(h));
+        return build(Suppliers.ofInstance(checkNotNull(h)));
     }
 
     public StreamingSocketServer build(
-            Factory<StreamingSocketServerHandler> handlerFactory) {
+            Supplier<StreamingSocketServerHandler> handlerFactory) {
         checkNotNull(handlerFactory);
         validate();
         return new StreamingSocketServer(serverSocketFactory,
@@ -127,8 +128,8 @@ public class SocketServerBuilder {
     }
 
     public <I, O> RequestSocketServer<I, O> build(
-            Factory<RequestSocketServerCoder<I, O>> coderFactory,
-            Factory<RequestSocketServerHandler<I, O>> handlerFactory) {
+            Supplier<RequestSocketServerCoder<I, O>> coderFactory,
+            Supplier<RequestSocketServerHandler<I, O>> handlerFactory) {
         checkNotNull(coderFactory);
         checkNotNull(handlerFactory);
         validate();
@@ -142,21 +143,21 @@ public class SocketServerBuilder {
 
     public <I, O> RequestSocketServer<I, O> build(
             RequestSocketServerCoder<I, O> coder,
-            Factory<RequestSocketServerHandler<I, O>> handlerFactory) {
-        return build(Factory.fromInstance(coder), handlerFactory);
+            Supplier<RequestSocketServerHandler<I, O>> handlerFactory) {
+        return build(Suppliers.ofInstance(checkNotNull(coder)), handlerFactory);
     }
 
     public <I, O> RequestSocketServer<I, O> build(
-            Factory<RequestSocketServerCoder<I, O>> coderFactory,
+            Supplier<RequestSocketServerCoder<I, O>> coderFactory,
             RequestSocketServerHandler<I, O> handler) {
-        return build(coderFactory, Factory.fromInstance(handler));
+        return build(coderFactory, Suppliers.ofInstance(checkNotNull(handler)));
     }
 
     public <I, O> RequestSocketServer<I, O> build(
             RequestSocketServerCoder<I, O> coder,
             RequestSocketServerHandler<I, O> handler) {
-        return build(Factory.fromInstance(coder),
-                     Factory.fromInstance(handler));
+        return build(Suppliers.ofInstance(checkNotNull(coder)),
+                     Suppliers.ofInstance(checkNotNull(handler)));
     }
 
     public static SocketServerBuilder create() {

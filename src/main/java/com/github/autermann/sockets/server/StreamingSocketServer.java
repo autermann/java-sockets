@@ -30,7 +30,7 @@ import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.autermann.utils.Factory;
+import com.google.common.base.Supplier;
 import com.google.common.io.Closer;
 
 /**
@@ -42,14 +42,14 @@ public class StreamingSocketServer {
     private static final Logger log = LoggerFactory
             .getLogger(StreamingSocketServer.class);
     private final ServerSocketFactory serverSocketFactory;
-    private final Factory<StreamingSocketServerHandler> handlerFactory;
+    private final Supplier<StreamingSocketServerHandler> handlerFactory;
     private final int port;
     private final Executor pool;
     private final List<Runnable> shutdownHooks;
     private ServerSocket serverSocket;
 
     StreamingSocketServer(ServerSocketFactory serverSocketFactory,
-                          Factory<StreamingSocketServerHandler> handlerFactory,
+                          Supplier<StreamingSocketServerHandler> handlerFactory,
                           Executor executor, List<Runnable> shutdownHooks,
                           int port) {
         this.serverSocketFactory = serverSocketFactory;
@@ -67,7 +67,7 @@ public class StreamingSocketServer {
         return this.serverSocketFactory;
     }
 
-    public Factory<StreamingSocketServerHandler> getHandlerFactory() {
+    public Supplier<StreamingSocketServerHandler> getHandlerFactory() {
         return this.handlerFactory;
     }
 
@@ -141,7 +141,7 @@ public class StreamingSocketServer {
 
         HandlerTask(Socket socket) {
             this.socket = socket;
-            this.handler = getHandlerFactory().create();
+            this.handler = getHandlerFactory().get();
         }
 
         @Override
