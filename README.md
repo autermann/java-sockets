@@ -6,7 +6,6 @@ Java Socket Utility Classes
 
 ```bash
 git clone --recursive -q -b master https://github.com/autermann/java-sockets.git
-chmod +x java-sockets/deps.sh && ./java-sockets/deps.sh
 mvn -q -f java-sockets/pom.xml clean source:jar javadoc:jar install
 ```
 
