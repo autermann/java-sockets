@@ -9,7 +9,7 @@
 
     <groupId>com.github.autermann</groupId>
     <artifactId>sockets</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>Java Sockets</name>
@@ -35,7 +35,6 @@
         <connection>scm:git:https://github.com/autermann/java-sockets.git</connection>
         <developerConnection>scm:git:https://github.com/autermann/java-sockets.git</developerConnection>
         <url>https://github.com/autermann/java-sockets</url>
-        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
