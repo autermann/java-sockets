@@ -80,6 +80,7 @@ public class StreamingSocketClient {
                 SocketConnection con = new SocketConnection();
                 try {
                     handler.handle(con, con);
+                    break;
                 } finally {
                     con.close();
                 }
