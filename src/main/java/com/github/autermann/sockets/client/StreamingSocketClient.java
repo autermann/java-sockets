@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,22 +42,14 @@ public class StreamingSocketClient {
     private final ClientSocketFactory socketFactory;
     private final InetSocketAddress address;
     private final int timeOut;
-    private final int attempts;
-
+    private SocketConnection con;
     StreamingSocketClient(InetSocketAddress address,
                           ClientSocketFactory socketFactory,
-                          int timeout,
-                          int attempts) {
+                          int timeout) {
         this.address = checkNotNull(address);
         this.socketFactory = checkNotNull(socketFactory);
         checkArgument(timeout > 0);
         this.timeOut = timeout;
-        checkArgument(attempts > 0);
-        this.attempts = attempts;
-    }
-
-    public int getConnectionAttempts() {
-        return attempts;
     }
 
     public int getConnectionTimeout() {
@@ -74,22 +65,15 @@ public class StreamingSocketClient {
     }
 
     public void exec(StreamingSocketClientHandler handler) throws IOException {
-        SocketException thrown = null;
-        for (int i = 0; i < getConnectionAttempts(); i++) {
-            try {
-                SocketConnection con = new SocketConnection();
-                try {
-                    handler.handle(con, con);
-                    break;
-                } finally {
-                    con.close();
-                }
-            } catch (SocketException e) {
-                thrown = e;
-            }
+        if (con == null || con.isClosed()) {
+            con = new SocketConnection();
         }
-        if (thrown != null) {
-            throw thrown;
+        handler.handle(con, con);
+    }
+
+    public void close() {
+        if (con != null) {
+            con.close();
         }
     }
 
@@ -99,8 +83,7 @@ public class StreamingSocketClient {
 
         SocketConnection() throws IOException {
             this.socket = getSocketConnection()
-                    .createSocket(getAddress(),
-                                  getConnectionTimeout());
+                    .createSocket(getAddress(), getConnectionTimeout());
         }
 
         private Socket getSocket() {
@@ -123,6 +106,14 @@ public class StreamingSocketClient {
             } catch (IOException e) {
                 log.error("Error closing socket", e);
             }
+        }
+
+        public boolean isClosed() {
+            return getSocket().isClosed();
+        }
+
+        public boolean isConnected() {
+            return getSocket().isConnected();
         }
     }
 

@@ -161,6 +161,8 @@ public class StreamingSocketServer {
                     log.error("Couldn't close socket: " +
                               e.getMessage(), e);
                 }
+                log.info("Client {} disconnected.", socket
+                    .getRemoteSocketAddress());
             }
         }
 

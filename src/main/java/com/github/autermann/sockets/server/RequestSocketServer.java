@@ -65,9 +65,12 @@ public class RequestSocketServer<I, O> extends StreamingSocketServer {
                 throws IOException {
             RequestSocketServerCoder<I, O> coder = coderFactory.get();
             RequestSocketServerHandler<I, O> handler = handlerFactory.get();
-            I request = coder.decode(in);
-            O response = handler.handle(request);
-            coder.encode(response, out);
+            I request;
+            while ((request = coder.decode(in)) != null) {
+                O response = handler.handle(request);
+                coder.encode(response, out);
+                out.flush();
+            }
         }
     }
 

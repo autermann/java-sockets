@@ -38,9 +38,8 @@ public class RequestSocketClient<I, O> extends StreamingSocketClient {
     RequestSocketClient(RequestSocketClientHandler<I, O> requestHandler,
                      InetSocketAddress address,
                      ClientSocketFactory socketFactory,
-                     int timeout,
-                     int attempts) {
-        super(address, socketFactory, timeout, attempts);
+                     int timeout) {
+        super(address, socketFactory, timeout);
         this.requestHandler = checkNotNull(requestHandler);
     }
 

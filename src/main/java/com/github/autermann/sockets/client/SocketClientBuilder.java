@@ -31,11 +31,9 @@ import com.github.autermann.sockets.ssl.SSLConfiguration;
  */
 public class SocketClientBuilder {
     private static final int DEFAULT_TIMEOUT = 10 * 1000;
-    public static final int DEFAULT_ATTEMPTS = 3;
     private InetSocketAddress address;
     private ClientSocketFactory socketFactory;
     private int timeout = DEFAULT_TIMEOUT;
-    private int attempts = DEFAULT_ATTEMPTS;
 
     public SocketClientBuilder withAddress(InetSocketAddress address) {
         this.address = checkNotNull(address);
@@ -69,12 +67,6 @@ public class SocketClientBuilder {
         return this;
     }
 
-    public SocketClientBuilder withAttempts(int attempts) {
-        checkArgument(attempts > 0);
-        this.attempts = attempts;
-        return this;
-    }
-
     private void validate() {
         checkState(address != null);
         if (socketFactory == null) {
@@ -86,12 +78,12 @@ public class SocketClientBuilder {
             RequestSocketClientHandler<I, O> handler) {
         checkNotNull(handler);
         validate();
-        return new RequestSocketClient<I, O>(handler, address, socketFactory, timeout, attempts);
+        return new RequestSocketClient<I, O>(handler, address, socketFactory, timeout);
     }
 
     public StreamingSocketClient build() {
         validate();
-        return new StreamingSocketClient(address, socketFactory, timeout, attempts);
+        return new StreamingSocketClient(address, socketFactory, timeout);
     }
 
     public static SocketClientBuilder create() {
